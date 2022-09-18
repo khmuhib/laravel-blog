@@ -15,7 +15,7 @@
                 <a href="{{ route('category') }}" class="btn btn-primary">Show Department</a>
             </div>
             <div class="card-body">
-                <form action="{{ route('category.update', ['id'=>$category->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('category.update', ['id'=>$category->id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-2">
@@ -33,10 +33,13 @@
                     <div class="form-group mb-2">
                         <label>Image</label>
                         <input type="file" class="form-control my-2" name="image">
+                        <div class="">
+                            <img class="img-thumbnail" src="{{ asset('uploads/category/'.$category->image) }}" alt="" style="height: 100px; width: 100px">
+                        </div>
                     </div>
                     <div class="form-group mb-2">
                         <label>Meta Title</label>
-                        <input type="text" class="form-control my-2" placeholder="Enter Meta Title" name="meta_title" {{$category->meta_title}}>
+                        <input type="text" class="form-control my-2" placeholder="Enter Meta Title" name="meta_title" value="{{$category->meta_title}}" >
                     </div>
                     <div class="form-group mb-2">
                         <label>Meta Description</label>

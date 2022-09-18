@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryFormRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\Admin\CategoryFormRequest;
 
 class CategoryController extends Controller
 {
@@ -36,7 +37,7 @@ class CategoryController extends Controller
             $file = $request->file('image');
             $extention = $file->getClientOriginalExtension();
             $filename = time().rand(1000, 9999).'.'.$extention;
-            $file->move('uploads/category', $filename);
+            $file->move('uploads/category/', $filename);
             $category->image = $filename;
         }
 
@@ -50,8 +51,6 @@ class CategoryController extends Controller
         $category->created_by = Auth::user()->id;
         $category->save();
 
-        //return dd($category);
-
         return redirect()->route('category')->with('message', 'Category Inserted Successfully');
 
 
@@ -59,37 +58,43 @@ class CategoryController extends Controller
     }
 
     public function update(CategoryFormRequest $request, $id) {
-
-
         $data = $request->validated();
-
-
         $category = Category::find($id);
         $category->name = $data['name'];
         $category->slug = $data['slug'];
         $category->description = $data['description'];
 
-        if($request->hasfile('image')){
+        if($request->hasfile('image'))
+        {
+            $destination = 'uploads/category/'.$category->image;
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
             $file = $request->file('image');
             $extention = $file->getClientOriginalExtension();
             $filename = time().rand(1000, 9999).'.'.$extention;
-            $file->move('uploads/category', $filename);
+            $file->move('uploads/category/', $filename);
             $category->image = $filename;
         }
-
         $category->meta_title = $data['meta_title'];
         $category->meta_description = $data['meta_description'];
         $category->meta_keyword = $data['meta_keyword'];
-
         $category->navbar_status = $request->navbar_status == true ? '1':'0';
         $category->status = $request->status == true ? '1':'0';
-
         $category->created_by = Auth::user()->id;
-        dd($category);
         $category->update();
 
-        return dd($category);
-
         return redirect()->route('category')->with('message', 'Category Updated Successfully');
+    }
+
+    public function delete($id) {
+        $category = Category::find($id);
+        if($category) {
+            $category->delete();
+            return redirect()->route('category')->with('message', 'Category Deleted Successfully');
+        }else {
+            return redirect()->route('category')->with('message', 'No Category Id Found');
+
+        }
     }
 }

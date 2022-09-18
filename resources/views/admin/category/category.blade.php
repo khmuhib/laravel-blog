@@ -68,13 +68,9 @@
                                     <img src="{{ asset('uploads/category/'.$category->image) }}" alt="" style="height: 50px; width: 50px">
                                 </td>
                                 <td>
-                                    <a href="" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                    <a href="" class="btn btn-success"><i class="fa fa-eye"></i></a>
                                     <a href="{{ route('category.edit', ['id'=>$category->id]) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                    <form action="" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
-                                    </form>
+                                    <a href="{{ route('category.delete', ['id'=>$category->id]) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             @endforeach
                             </tr>
