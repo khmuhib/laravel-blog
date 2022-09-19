@@ -31,8 +31,20 @@
                             </a>
                             <div class="collapse" id="posts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{ route('admin.post') }}">Post List</a>
-                                    <a class="nav-link" href="{{ route('admin.create') }}">Add Post</a>
+                                    <a class="nav-link" href="{{ route('admin.post.list') }}">Post List</a>
+                                    <a class="nav-link" href="{{ route('admin.post.create') }}">Add Post</a>
+                                </nav>
+                            </div>
+
+
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#users" aria-expanded="false" aria-controls="users">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                User
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="users" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{{ route('admin.user.list') }}">User List</a>
                                 </nav>
                             </div>
 

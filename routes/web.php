@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,8 +48,16 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/category/delete/{id}',  [CategoryController::class, 'delete'])->name('category.delete');
 
 
-    Route::get('/post',  [PostController::class, 'index'])->name('admin.post');
-    Route::get('/post/create',  [PostController::class, 'create'])->name('admin.create');
+    Route::get('/post',  [PostController::class, 'index'])->name('admin.post.list');
+    Route::get('/post/create',  [PostController::class, 'create'])->name('admin.post.create');
+    Route::post('/post/store',  [PostController::class, 'store'])->name('admin.post.store');
+    Route::get('/post/edit/{id}',  [PostController::class, 'edit'])->name('admin.post.edit');
+    Route::put('/post/update/{id}',  [PostController::class, 'update'])->name('admin.post.update');
+    Route::get('/post/delete/{id}',  [PostController::class, 'delete'])->name('admin.post.delete');
+
+    Route::get('/user',  [UserController::class, 'index'])->name('admin.user.list');
+    Route::get('/user/edit/{id}',  [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::put('/user/update/{id}',  [UserController::class, 'update'])->name('admin.user.update');
 
 
 });
