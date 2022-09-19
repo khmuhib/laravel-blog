@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ class CategoryController extends Controller
 
         $category = new Category;
         $category->name = $data['name'];
-        $category->slug = $data['slug'];
+        $category->slug = Str::slug($data['slug']);
         $category->description = $data['description'];
 
         if($request->hasfile('image')){
@@ -61,7 +62,7 @@ class CategoryController extends Controller
         $data = $request->validated();
         $category = Category::find($id);
         $category->name = $data['name'];
-        $category->slug = $data['slug'];
+        $category->slug = Str::slug($data['slug']);
         $category->description = $data['description'];
 
         if($request->hasfile('image'))
@@ -90,6 +91,7 @@ class CategoryController extends Controller
     public function delete($id) {
         $category = Category::find($id);
         if($category) {
+            $category->posts()->delete();
             $category->delete();
             return redirect()->route('category')->with('message', 'Category Deleted Successfully');
         }else {

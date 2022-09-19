@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class PostController extends Controller
         $posts = new Post;
 
         $posts->name = $data['name'];
-        $posts->slug = $data['slug'];
+        $posts->slug = Str::slug($data['slug']);
         $posts->description = $data['description'];
         $posts->yt_iframe = $data['yt_iframe'];
         $posts->meta_title = $data['meta_title'];
@@ -59,7 +60,7 @@ class PostController extends Controller
         $posts = Post::find($id);
 
         $posts->name = $data['name'];
-        $posts->slug = $data['slug'];
+        $posts->slug = Str::slug($data['slug']);
         $posts->description = $data['description'];
         $posts->yt_iframe = $data['yt_iframe'];
         $posts->meta_title = $data['meta_title'];
